@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 //Console.WriteLine("Hello, World!");
 
@@ -42,7 +43,7 @@ namespace Botofan_W1_2
             //Console.WriteLine(card_nou.ToString());Console.WriteLine("\n");
 
 
-            exercitiul4();
+            exercitiul6();
 
 
 
@@ -114,6 +115,8 @@ namespace Botofan_W1_2
         }
 
 
+
+
         static void exercitiul3()
         {
             
@@ -154,10 +157,32 @@ namespace Botofan_W1_2
 
 
         }
-        static void exercitiul5() { }
-        static void exercitiul6() { }
-        static void exercitiul7() { }
-        static void exercitiul8() { }
+        static void exercitiul5() {
+            StringBuilder a =new StringBuilder( "Buna ziua doamnelor si domnilor! Si buna sa va fie inima!");
+
+            a.Replace("buna", "rea");
+            a.Replace("Buna", "Rea");
+            a.Replace("BUNA", "REA");
+
+            Console.WriteLine(a);
+        }
+
+
+
+        public delegate int SumaDelegat(int a, int b);
+        static void exercitiul6() {
+
+            SumaDelegat delegat = AfisareSume;
+
+            Console.WriteLine(delegat(5, 7));
+           
+        }
+        static int AfisareSume(int a, int b)
+        {
+            return a + b;
+        }
+        
+        
 
     }
 
