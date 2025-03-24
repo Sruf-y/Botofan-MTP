@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Botofan W1+2", "Botofan W1+2\Botofan W1+2.csproj", "{1F4A9B9A-59DD-40C7-AB59-D57A61AAFF8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Botofan W1+2", "Botofan W1+2\Botofan W1+2.csproj", "{1F4A9B9A-59DD-40C7-AB59-D57A61AAFF8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saptamana5-Windows-Forms", "Saptamana5-Windows-Forms\Saptamana5-Windows-Forms.csproj", "{47A52223-858B-49BD-AB25-79F3BB652052}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{1F4A9B9A-59DD-40C7-AB59-D57A61AAFF8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F4A9B9A-59DD-40C7-AB59-D57A61AAFF8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F4A9B9A-59DD-40C7-AB59-D57A61AAFF8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47A52223-858B-49BD-AB25-79F3BB652052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47A52223-858B-49BD-AB25-79F3BB652052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47A52223-858B-49BD-AB25-79F3BB652052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47A52223-858B-49BD-AB25-79F3BB652052}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
