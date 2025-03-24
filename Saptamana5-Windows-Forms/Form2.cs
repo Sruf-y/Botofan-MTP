@@ -41,5 +41,14 @@ namespace Saptamana5_Windows_Forms
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            dataListView.Items.Clear();
+            dataListView.Items.Add("Nume: "+textBox1.Text);
+            dataListView.Items.Add("Prenume:" + textBox2.Text);
+            dataListView.Items.Add("Varsta: "+numericUpDown1.Value.ToString());
+
+        }
     }
 }

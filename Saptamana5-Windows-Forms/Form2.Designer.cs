@@ -37,8 +37,15 @@
             checkedListBox1 = new CheckedListBox();
             label2 = new Label();
             label3 = new Label();
+            radioButton1 = new RadioButton();
+            radioButton2 = new RadioButton();
+            groupBox2 = new GroupBox();
+            label4 = new Label();
+            button1 = new Button();
+            dataListView = new ListBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // listBox1
@@ -127,11 +134,77 @@
             label3.TabIndex = 7;
             label3.Text = "Limbaje de programare cunoscute";
             // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Location = new Point(20, 24);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(73, 19);
+            radioButton1.TabIndex = 8;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "Masculin";
+            radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new Point(20, 62);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(68, 19);
+            radioButton2.TabIndex = 9;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "Feminin";
+            radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(radioButton1);
+            groupBox2.Controls.Add(radioButton2);
+            groupBox2.Location = new Point(383, 118);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(110, 100);
+            groupBox2.TabIndex = 10;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Gen";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(678, 86);
+            label4.Name = "label4";
+            label4.Size = new Size(31, 15);
+            label4.TabIndex = 11;
+            label4.Text = "Data";
+            // 
+            // button1
+            // 
+            button1.BackColor = SystemColors.ControlDark;
+            button1.Location = new Point(692, 428);
+            button1.Name = "button1";
+            button1.Size = new Size(120, 50);
+            button1.TabIndex = 13;
+            button1.Text = "Confirm";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
+            // dataListView
+            // 
+            dataListView.FormattingEnabled = true;
+            dataListView.ItemHeight = 15;
+            dataListView.Location = new Point(678, 118);
+            dataListView.Name = "dataListView";
+            dataListView.Size = new Size(175, 199);
+            dataListView.TabIndex = 14;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(912, 569);
+            Controls.Add(dataListView);
+            Controls.Add(button1);
+            Controls.Add(label4);
+            Controls.Add(groupBox2);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(checkedListBox1);
@@ -145,6 +218,8 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -165,5 +240,11 @@
         private CheckedListBox checkedListBox1;
         private Label label2;
         private Label label3;
+        private RadioButton radioButton1;
+        private RadioButton radioButton2;
+        private GroupBox groupBox2;
+        private Label label4;
+        private Button button1;
+        private ListBox dataListView;
     }
 }
