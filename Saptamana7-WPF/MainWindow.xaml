@@ -1,0 +1,42 @@
+﻿<Window x:Class="Saptamana7_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Saptamana7_WPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="70"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Load files" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"></TextBlock>
+                <Button Grid.Column="1" Content="ADD FILE" FontSize="16" Click="Button_Click_1" ></Button>
+            </Grid>
+            <ListBox Name="choose_file" Grid.Row="1" SelectionChanged="choose_file_SelectionChanged" ></ListBox>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="70"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="70"></RowDefinition>
+            </Grid.RowDefinitions>
+            <CheckBox Name="mycheckbox" Grid.Row="0" HorizontalAlignment="Right" FontSize="18" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="CheckBox_Checked" >Autosave</CheckBox>
+            <TextBlock Name="File_head_name" Grid.Row="1" Text="Default file chosen"></TextBlock>
+            <TextBox Name="Display_content_and_get_content" Grid.Row="2" Text="Default content of file" TextWrapping="Wrap" AcceptsReturn="True" TextChanged="Display_content_and_get_content_TextChanged"></TextBox>
+            <Button Name="Savebutton" Grid.Row="3" Content="SAVE" FontSize="36" Click="Save_Click" ></Button>
+        </Grid>
+    </Grid>
+</Window>

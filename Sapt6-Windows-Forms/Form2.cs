@@ -50,6 +50,15 @@ namespace Sapt6_Windows_Forms
 
             Label nume_intrebare = new Label();
             nume_intrebare.Text = intrebare_aleasa.question_text;
+
+
+            Label questiontext = new Label();
+            questiontext.Text= intrebare_aleasa.question_text;
+            questiontext.Width = 500;
+
+            flowLayoutPanel1.Controls.Add(questiontext);
+
+
         }
 
         
