@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saptamana5-Windows-Forms", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saptamana6-Windows-Forms", "Sapt6-Windows-Forms\Saptamana6-Windows-Forms.csproj", "{66B2DE11-F34C-4366-B40E-CDB535E01AC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saptamana7-WPF", "Saptamana7-WPF\Saptamana7-WPF.csproj", "{59B09078-9926-4C3D-B9AA-2F881C23A6FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saptamana7-WPF", "Saptamana7-WPF\Saptamana7-WPF.csproj", "{59B09078-9926-4C3D-B9AA-2F881C23A6FC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saptamana8_WPF", "Saptamana8_WPF\Saptamana8_WPF.csproj", "{00449DFA-B4CF-4BCE-8D58-FAAA33A82233}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{59B09078-9926-4C3D-B9AA-2F881C23A6FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59B09078-9926-4C3D-B9AA-2F881C23A6FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59B09078-9926-4C3D-B9AA-2F881C23A6FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00449DFA-B4CF-4BCE-8D58-FAAA33A82233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00449DFA-B4CF-4BCE-8D58-FAAA33A82233}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00449DFA-B4CF-4BCE-8D58-FAAA33A82233}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00449DFA-B4CF-4BCE-8D58-FAAA33A82233}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

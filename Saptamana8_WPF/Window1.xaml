@@ -1,0 +1,65 @@
+﻿<Window x:Class="Saptamana8_WPF.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Saptamana8_WPF"
+        mc:Ignorable="d"
+        Title="Window1" Height="691" Width="521">
+    
+        <Grid>
+            <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="ID Angajat:" Margin="15"/>
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtAngID"  Margin="15"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Nume:" Margin="15"/>
+            <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtNume" Margin="15"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Data nasterii:" Margin="15"/>
+            <DatePicker Grid.Row="2" Grid.Column="1" x:Name="dpDN" Margin="15"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Adresa:" Margin="15"/>
+            <TextBox Grid.Row="3" Grid.Column="1" x:Name="txtAdresa" Margin="15" 
+AcceptsReturn="False" Height="80"/>
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Selectati tara:" Margin="15"/>
+        <ComboBox Grid.Row="4" Grid.Column="1" x:Name="cbTara" Margin="15">Romania</ComboBox>
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Gen:" Margin="15"/>
+            <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Margin="15">
+                <RadioButton x:Name="rbMasculin" Content="Masculin" Margin="15"/>
+                <RadioButton x:Name="rbFeminin" Content="Feminin" Margin="15"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" Margin="5" 
+HorizontalAlignment="Left">
+                <Button  Width="100" Height="30" Margin="5" x:Name="btnActualizare" 
+Content="Actualizare" Click="btnActualizare_Click"/>
+                <Button  Width="100" Height="30" Margin="5" x:Name="btnStergere" Content="Stergere" 
+Click="btnStergere_Click" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" Margin="5" 
+HorizontalAlignment="Left">
+                <Button  Width="100" Height="30" Margin="5" x:Name="btnInregistrare" 
+Content="Inregistrare" Click="btnInregistrare_Click"  />
+                <Button  Width="100" Height="30" Margin="5" x:Name="btnDetalii" Content="Detalii" 
+Click="btnDetalii_Click" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="1" Margin="5" 
+HorizontalAlignment="Left">
+                <Button  Width="100" Height="30" Margin="5" x:Name="btnAfisare" Content="Afisare 
+Angajati" Click="btnAfisare_Click"/>
+                <Button  Width="100" Height="30" Margin="5" x:Name="btnIesire" Content="Iesire" 
+Click="btnIesire_Click"/>
+            </StackPanel>
+        </Grid>
+    
+</Window>
