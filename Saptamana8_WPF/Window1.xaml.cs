@@ -23,7 +23,7 @@ namespace Saptamana8_WPF
     {
 
 
-        private string connectionString = "Server=DESKTOP-CN4O9AS\\SQLEXPRESS;Database=Botofan_Database;Trusted_Connection=True;TrustServerCertificate = True;";
+        private string connectionString = GlobalVars.CONNECTION_STRING;
         public Window1()
         {
             InitializeComponent();

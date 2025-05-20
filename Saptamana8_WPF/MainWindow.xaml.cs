@@ -1,97 +1,124 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.VisualBasic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Saptamana8_WPF
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-       
-        private string connectionString = "Server=DESKTOP-CN4O9AS\\SQLEXPRESS;Database=Botofan_Database;Trusted_Connection=True;TrustServerCertificate = True;";     
+        private readonly string connectionString = GlobalVars.CONNECTION_STRING;
+
         public MainWindow()
         {
             InitializeComponent();
-            AfisareUtilizatori();
+            Loaded += (s, e) => AfisareUtilizatori();
+            PasswordBox.KeyDown += PasswordBox_KeyDown;
         }
+
         private void AfisareUtilizatori()
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (var conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    SqlCommand cmd = new SqlCommand("SELECT Nume FROM Utilizatori".ToUpper(), conn);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    { 
-                        UserComboBox.Items.Add(reader["Nume".ToUpper()].ToString());
+
+                    if (!DataBase.TableExists(conn, "utilizatori") || GlobalVars.DATABASE_RECREATE_ON_STARTUP)
+                    {
+                        DataBase.UserController.CreateTable(conn);
+                    }
+
+                    var cmd = new SqlCommand("SELECT Nume FROM Utilizatori", conn);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        UserComboBox.Items.Clear();
+                        while (reader.Read())
+                        {
+                            UserComboBox.Items.Add(reader["Nume"].ToString());
+                        }
                     }
                 }
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Eroare la conectarea bazei de date: " + ex.Message);
+                ShowError("Eroare la conectarea bazei de date", ex.Message);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Eroare necunoscuta: " + ex.Message);
+                ShowError("Eroare necunoscută", ex.Message);
+            }
+        }
+
+        private void PasswordBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                AttemptLogin();
             }
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            AttemptLogin();
+        }
+
+        private void AttemptLogin()
+        {
+            if (string.IsNullOrWhiteSpace(UserComboBox.Text) ||
+                string.IsNullOrWhiteSpace(PasswordBox.Password))
+            {
+                MessageBox.Show("Introduceți utilizatorul și parola.", "Date lipsă",
+                              MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             try
             {
-                string? utilizatorSelectat = UserComboBox.SelectedItem?.ToString();
-                string parolaIntrodusa = PasswordBox.Password;
-                if (string.IsNullOrEmpty(utilizatorSelectat) ||
-        string.IsNullOrEmpty(parolaIntrodusa))
-                {
-                    MessageBox.Show("Introduceti utilizatorul si parola.");
-                    return;
-                }
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (var conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    SqlCommand cmd = new SqlCommand("SELECT PAROLA FROM Utilizatori WHERE NUME = @username", conn); 
-        
-                    cmd.Parameters.AddWithValue("@username", utilizatorSelectat);
-                    object result = cmd.ExecuteScalar();
-                    
-        
 
-            if (result != null && result.ToString() == parolaIntrodusa)
+                    // Consider using password hashing in production
+                    var cmd = new SqlCommand(
+                        "SELECT Id FROM Utilizatori WHERE Nume = @username AND Parola = @password",
+                        conn);
+
+                    cmd.Parameters.AddWithValue("@username", UserComboBox.Text);
+                    cmd.Parameters.AddWithValue("@password", PasswordBox.Password);
+
+                    var result = cmd.ExecuteScalar();
+
+                    if (result != null)
                     {
-                        MessageBox.Show("Autentificare reusita!");
-                        new Window1().Show();
+                        MessageBox.Show("Autentificare reușită!", "Succes",
+                                      MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        var mainWindow = new Window1();
+                        mainWindow.Show();
                         this.Close();
                     }
                     else
                     {
-                        MessageBox.Show("Utilizator sau parola incorecta.");
+                        MessageBox.Show("Utilizator sau parolă incorectă.", "Eroare",
+                                      MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Eroare la conectarea bazei de date: " + ex.Message);
+                ShowError("Eroare la conectarea bazei de date", ex.Message);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Eroare necunoscuta: " + ex.Message);
+                ShowError("Eroare necunoscută", ex.Message);
             }
         }
+
+        private void ShowError(string title, string message)
+        {
+            MessageBox.Show($"{title}: {message}", "Eroare",
+                          MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
-    }
+}
