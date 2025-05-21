@@ -1,0 +1,59 @@
+﻿<Window x:Class="Saptamana8_WPF.MainPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Saptamana8_WPF"
+        mc:Ignorable="d" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="150" />
+        </Grid.ColumnDefinitions>
+
+        
+        <!-- Data+Search grid -->
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Search grid -->
+            <Grid  Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Label Grid.Column="0"   Content="Model:" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" />
+                <TextBox x:Name="modelSearchBox" Grid.Column="1" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="120" />
+
+                <Label Grid.Column="2"   Content="Max Price:" HorizontalAlignment="Center" Margin="10,0,0,0" VerticalAlignment="Center" />
+                <TextBox x:Name="priceSearchBox" Grid.Column="3" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="120" />
+
+                <Button x:Name="searchButton" Grid.Column="4" Content="Filter" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" Padding="5,1,5,1" Click="searchButton_Click"/>
+                <Button x:Name="refreshButton" Grid.Column="4" Content="Refresh data" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20,0,10,0" Padding="5,1,5,1" Click="refreshButton_Click" />
+            </Grid>
+
+
+            <DataGrid x:Name="dataGrid" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="True"  Margin="0,0,0,0" ColumnWidth="*" SelectionChanged="dataGrid_SelectionChanged"  />
+
+        </Grid>
+        
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Button x:Name="insertButton" Content="Insert" HorizontalAlignment="Center" Margin="10" Grid.Row="0" VerticalAlignment="Top" Width="70" Click="insertButton_Click"/>
+            <Button x:Name="modifyButton" Content="Modify" HorizontalAlignment="Center" Margin="10" Grid.Row="1" VerticalAlignment="Top" Width="70" Click="modifyButton_Click"/>
+            <Button x:Name="deleteButton" Content="Delete" HorizontalAlignment="Center" Margin="10" Grid.Row="2" VerticalAlignment="Top" Width="70" Click="deleteButton_Click"/>
+
+        </Grid>
+    </Grid>
+</Window>

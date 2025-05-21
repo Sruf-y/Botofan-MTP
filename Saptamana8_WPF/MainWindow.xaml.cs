@@ -12,7 +12,24 @@ namespace Saptamana8_WPF
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += (s, e) => AfisareUtilizatori();
+
+            // in caz ca trebuie initializate tabelele
+            using (var conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                if (!DataBase.TableExists(conn, DataBase.UserController.TABLE_NAME) || GlobalVars.DATABASE_RECREATE_ON_STARTUP)
+                {
+                    DataBase.UserController.CreateTable(conn);
+                    DataBase.UserController.Insert("Admin", "Password");
+                }
+                if (!DataBase.TableExists(conn, DataBase.TelController.TABLE_NAME) || GlobalVars.DATABASE_RECREATE_ON_STARTUP)
+                {
+                    DataBase.TelController.CreateTable(conn);
+                }
+            }
+            
+            AfisareUtilizatori();
             PasswordBox.KeyDown += PasswordBox_KeyDown;
         }
 
@@ -24,10 +41,7 @@ namespace Saptamana8_WPF
                 {
                     conn.Open();
 
-                    if (!DataBase.TableExists(conn, "utilizatori") || GlobalVars.DATABASE_RECREATE_ON_STARTUP)
-                    {
-                        DataBase.UserController.CreateTable(conn);
-                    }
+                  
 
                     var cmd = new SqlCommand("SELECT Nume FROM Utilizatori", conn);
                     using (var reader = cmd.ExecuteReader())
@@ -37,6 +51,10 @@ namespace Saptamana8_WPF
                         {
                             UserComboBox.Items.Add(reader["Nume"].ToString());
                         }
+                    }
+                    if (UserComboBox.Items.Count > 0)
+                    {
+                        UserComboBox.SelectedIndex = 0;
                     }
                 }
             }
@@ -58,10 +76,7 @@ namespace Saptamana8_WPF
             }
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            AttemptLogin();
-        }
+        
 
         private void AttemptLogin()
         {
@@ -94,7 +109,7 @@ namespace Saptamana8_WPF
                         MessageBox.Show("Autentificare reușită!", "Succes",
                                       MessageBoxButton.OK, MessageBoxImage.Information);
 
-                        var mainWindow = new Window1();
+                        var mainWindow = new MainPage();
                         mainWindow.Show();
                         this.Close();
                     }
@@ -119,6 +134,22 @@ namespace Saptamana8_WPF
         {
             MessageBox.Show($"{title}: {message}", "Eroare",
                           MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            AfisareUtilizatori();
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            AttemptLogin();
+        }
+
+        private void signInButton_Click(object sender, RoutedEventArgs e)
+        {
+            new CreateUserWindow().Show();
+
         }
     }
 }

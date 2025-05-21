@@ -6,28 +6,34 @@
         xmlns:local="clr-namespace:Saptamana8_WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Margin="20">
+    <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Utilizator:" Grid.Row="0" Grid.Column="0" 
-VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10"/>
-        <ComboBox x:Name="UserComboBox" Grid.Row="0" Grid.Column="1" Width="200" 
-Height="30"  
-                  HorizontalAlignment="Left" Margin="10"/>
-        <TextBlock Text="Parola:" Grid.Row="1" Grid.Column="0" 
-VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10"/>
-        <PasswordBox x:Name="PasswordBox" Grid.Row="1" Grid.Column="1" Width="200" 
-Height="30"  
-                     HorizontalAlignment="Left" Margin="10"/>
-        <Button Content="Login" Grid.Row="2" Grid.ColumnSpan="2" Width="100" 
-Height="35"  
-                HorizontalAlignment="Center" Click="LoginButton_Click" Margin="5"/>
+        <TextBlock Text="Utilizator:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Padding="10"/>
+        <ComboBox x:Name="UserComboBox" Grid.Row="0" Grid.Column="1" Width="200" Height="30"  HorizontalAlignment="Left" Margin="10" VerticalAlignment="Bottom"/>
+
+        <TextBlock Text="Parola:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Padding="10"/>
+        <PasswordBox x:Name="PasswordBox" Grid.Row="1" Grid.Column="1" Width="200" Height="30"  HorizontalAlignment="Left" Margin="10" VerticalAlignment="Center"/>
+
+        <!--Buttons grid-->
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Login" Grid.Column="0"  Width="100" Height="35"  HorizontalAlignment="Center" Click="LoginButton_Click" Margin="0,0,0,0"/>
+            <Button Content="Sign in" Grid.Column="1" x:Name="signInButton"  Width="100" Height="35"  HorizontalAlignment="Center"  Margin="0,0,0,0" Click="signInButton_Click"/>
+        </Grid>
+
+
+        <Button Grid.Column="2" Content="Refresh users" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Width="89" Margin="10" Click="RefreshButton_Click" />
     </Grid>
 </Window>

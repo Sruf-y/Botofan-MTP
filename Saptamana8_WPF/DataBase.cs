@@ -29,6 +29,195 @@ namespace Saptamana8_WPF
         {
             public static String TABLE_NAME = "TELEFOANE";
 
+            public class Telefon
+            {
+
+                public int index;
+                public string firma;
+                public string model;
+                public int baterie;
+                public DateTime releaseDate;
+                public decimal price;
+
+                public Telefon() { }
+                public Telefon(int index,string firma, string model, int baterie, DateTime releaseDate, decimal price)
+                {
+                    this.index = index;
+                    this.firma = firma;
+                    this.model = model;
+                    this.baterie = baterie;
+                    this.releaseDate = releaseDate;
+                    this.price = price;
+                }
+            }
+
+
+
+            public static void CreateTable(SqlConnection connection)
+            {
+                using (SqlCommand cmd = new SqlCommand(
+                    "DROP TABLE IF EXISTS " + TABLE_NAME,
+                    connection))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+
+                using (SqlCommand cmd = new SqlCommand(
+                    "CREATE TABLE " + TABLE_NAME + " (" +
+                    "Id INT IDENTITY(1,1) PRIMARY KEY, " +
+                    "Firma NVARCHAR(100) , " +
+                    "Model NVARCHAR(100) UNIQUE NOT NULL, " +
+                    "Baterie INT, " +
+                    "Release_Date DATETIME  NOT NULL DEFAULT SYSDATETIME(), " +
+                    "Price DECIMAL(10,2) NOT NULL)",
+                    connection))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+
+            public static int TableSize()
+            {
+                SqlConnection connection = new SqlConnection(GlobalVars.CONNECTION_STRING);
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+
+                string query = $@"SELECT COUNT(*) FROM [{TABLE_NAME}]";
+
+                int a = 0;
+
+                try
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    a= (int)command.ExecuteScalar();
+                }
+                catch(SqlException ex)
+                {
+                    MessageBox.Show("SqlEsception at counting Telefoane: "+ex.Message);
+                }
+
+                return a;
+            }
+
+
+            public static void Insert(string firma, string model, int? baterie, DateTime? releaseDate, decimal price)
+            {
+                SqlConnection connection = new SqlConnection(GlobalVars.CONNECTION_STRING);
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+
+                
+                string query = $@"INSERT INTO [{TABLE_NAME}] (Firma, Model, Baterie, Release_Date, Price) 
+                   VALUES (@FIRMA, @MODEL, @BATERIE, @RELEASE, @PRICE)";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@FIRMA", (firma!=null && firma.Length>0)?firma:"NULL");
+                    command.Parameters.AddWithValue("@MODEL", model);
+                    command.Parameters.AddWithValue("@BATERIE", (baterie != null && baterie>0) ? baterie : 0);
+                    command.Parameters.AddWithValue("@RELEASE", (releaseDate!=null)?releaseDate:DateTime.Now);
+                    command.Parameters.AddWithValue("@PRICE", (price != null && price > 0) ? price : 0);
+
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show("Sql exception at inserting a Telefon: " + ex.Message);
+                    }
+
+                }
+            }
+
+            public static void Delete(string model)
+            {
+                SqlConnection connection = new SqlConnection(GlobalVars.CONNECTION_STRING);
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+
+                string query = $@"DELETE FROM [{TABLE_NAME}] WHERE Model = @Model";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                command.Parameters.AddWithValue("@Model", model);
+
+
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show("Sql exception at inserting a Telefon: " + ex.Message);
+                }
+            }
+
+            public static void Modify(string firma, string model, int? baterie, DateTime? releaseDate, decimal? price)
+            {
+                SqlConnection connection = new SqlConnection(GlobalVars.CONNECTION_STRING);
+                if (connection.State == System.Data.ConnectionState.Closed)
+                {
+                    connection.Open();
+                }
+
+                List<string> arons = new List<string>();
+                List<SqlParameter> parameters = new List<SqlParameter>();
+
+                if (!string.IsNullOrWhiteSpace(firma))
+                {
+                    arons.Add("Firma = @Firma");
+                    parameters.Add(new SqlParameter("@Firma", firma));
+                }
+
+                if (baterie!=null)
+                {
+                    arons.Add("Baterie = @Baterie");
+                    parameters.Add(new SqlParameter("@Baterie", baterie.Value));
+                }
+
+                if (releaseDate!=null)
+                {
+                    arons.Add("Release_Date = @ReleaseDate");
+                    parameters.Add(new SqlParameter("@ReleaseDate", releaseDate));
+                }
+
+                if (price != null)
+                {
+                    arons.Add("Price = @Price");
+                    parameters.Add(new SqlParameter("@Price", (price > 0) ? price : 0));
+                }
+
+
+                if (arons.Count > 0)
+                {
+                    string query = $@"UPDATE [{TABLE_NAME}] SET {string.Join(", ",arons)} WHERE Model = @Model";
+
+                    SqlCommand command = new SqlCommand(query, connection);
+
+                    command.Parameters.AddRange(parameters.ToArray());
+                    command.Parameters.AddWithValue("@Model", model);
+
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show("Sql exception at modifying a Telefon: " + ex.Message);
+                    }
+                }
+                
+                
+            }
+
         }
 
 
@@ -42,7 +231,7 @@ namespace Saptamana8_WPF
             {
                 using (SqlCommand cmd = new SqlCommand(
                     "DROP TABLE IF EXISTS " + TABLE_NAME,
-                    connection)) 
+                    connection))
                 {
                     cmd.ExecuteNonQuery();
                 }
@@ -50,9 +239,9 @@ namespace Saptamana8_WPF
 
 
                 using (SqlCommand cmd = new SqlCommand(
-                    ("CREATE TABLE "+TABLE_NAME+" (".ToUpper() +
+                    ("CREATE TABLE " + TABLE_NAME + " (" +
                     "Id INT IDENTITY(1,1) PRIMARY KEY, " +
-                    "Nume NVARCHAR(100) NOT NULL, " +
+                    "Nume NVARCHAR(100) UNIQUE NOT NULL, " +
                     "Parola NVARCHAR(100) NOT NULL)"),
                     connection))
                 {
@@ -60,7 +249,7 @@ namespace Saptamana8_WPF
                 }
             }
 
-            public static void Insert(String nume, String parola)
+            public static bool Insert(string nume, string parola)
             {
                 SqlConnection connection = new SqlConnection(GlobalVars.CONNECTION_STRING);
                 if (connection.State == System.Data.ConnectionState.Closed)
@@ -68,12 +257,23 @@ namespace Saptamana8_WPF
                     connection.Open();
                 }
                 //Cream obiectul SqlCommand si interogarea sql 
-                SqlCommand command = new SqlCommand("INSERT into "+TABLE_NAME+" (NUME, PAROLA) values" + "(@NUME,@PAROLA)", connection);
+                SqlCommand command = new SqlCommand("INSERT into " + TABLE_NAME + " (NUME, PAROLA) values" + "(@NUME,@PAROLA)", connection);
 
                 command.Parameters.AddWithValue("@NUME", nume);
                 command.Parameters.AddWithValue("@PAROLA", parola);
-                command.ExecuteNonQuery();
+                try
+                {
+                    return (command.ExecuteNonQuery() > 0);
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show("User " + nume + " already exists!");
+                    return false;
+                }
+                
             }
+
+
         }
     }
 }
