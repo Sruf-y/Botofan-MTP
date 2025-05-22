@@ -11,14 +11,14 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        
+
         <!-- Data+Search grid -->
         <Grid Grid.Column="0" Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
+
             <!-- Search grid -->
             <Grid  Grid.Row="0">
                 <Grid.ColumnDefinitions>
@@ -28,7 +28,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <Label Grid.Column="0"   Content="Model:" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" />
                 <TextBox x:Name="modelSearchBox" Grid.Column="1" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="120" />
 
@@ -43,34 +43,33 @@
             <DataGrid x:Name="dataGrid" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="True"  Margin="0,0,0,0" ColumnWidth="*" SelectionChanged="dataGrid_SelectionChanged"  />
 
         </Grid>
-        
+
         <!-- Buttons grid -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="3*" />
             </Grid.RowDefinitions>
-            <Button x:Name="insertButton" Content="Insert" HorizontalAlignment="Center" Margin="10" Grid.Row="0" VerticalAlignment="Top" Width="70" Click="insertButton_Click"/>
-            <Button x:Name="modifyButton" Content="Modify" HorizontalAlignment="Center" Margin="10" Grid.Row="1" VerticalAlignment="Top" Width="70" Click="modifyButton_Click"/>
-            <Button x:Name="deleteButton" Content="Delete" HorizontalAlignment="Center" Margin="10" Grid.Row="2" VerticalAlignment="Top" Width="70" Click="deleteButton_Click"/>
+            <Button x:Name="insertButton" Content="Insert" HorizontalAlignment="Center" Margin="10" Grid.Row="1" VerticalAlignment="Top" Width="70" Click="insertButton_Click"/>
+            <Button x:Name="modifyButton" Content="Modify" HorizontalAlignment="Center" Margin="10" Grid.Row="2" VerticalAlignment="Top" Width="70" Click="modifyButton_Click"/>
+            <Button x:Name="deleteButton" Content="Delete" HorizontalAlignment="Center" Margin="10" Grid.Row="3" VerticalAlignment="Top" Width="70" Click="deleteButton_Click"/>
 
-            <StackPanel Grid.Row="3" 
+            <StackPanel Grid.Row="4" 
             Name="DropPanel" 
             Drop="DropPanel_Drop" 
             DragOver="DropPanel_DragOver"
             AllowDrop="True"
             Background="#EEE"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
             Margin="10">
 
                 <Label Content="Drop .txt file" 
            HorizontalAlignment="Center" 
-           VerticalAlignment="Center" 
-           FontSize="14"
-           Foreground="Gray"/>
+           Foreground="Gray" Height="60"/>
             </StackPanel>
         </Grid>
     </Grid>

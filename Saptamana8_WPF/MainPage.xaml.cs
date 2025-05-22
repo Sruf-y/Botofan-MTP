@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,7 +61,7 @@ namespace Saptamana8_WPF
 
 
 
-                new Operations.TelOperationsWindow(id, firma, model, baterie, releaseDate, price,close).Show();
+                new Operations.TelOperationsWindow(id, firma, model, baterie, releaseDate, price, close).Show();
             }
 
 
@@ -162,6 +163,105 @@ namespace Saptamana8_WPF
         {
             RefreshData();
         }
+
+
+        private void DropPanel_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+
+                var filepath = files.First();
+                //foreach (string file in files)
+                //{
+                //    // Process the file
+                //    MessageBox.Show("File dropped: " + file);
+                //}
+
+                //MessageBox.Show("File dropped: " + files.First());
+
+                using (StreamReader reader = new StreamReader(filepath))
+                {
+                    string line = "";
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string[] parts = line.Split(',');
+                        if (parts.Length == 5)
+                        {
+                            try
+                            {
+                                string firma = parts[0];
+                                string model = parts[1];
+                                int baterie = int.Parse(parts[2]);
+
+                                DateTime? releaseDate;
+                                if (parts[3]!= "null")
+                                {
+                                    releaseDate = DateTime.Parse(parts[3]);
+                                }
+                                else
+                                {
+                                    releaseDate = null;
+                                }
+                                
+                                
+                                
+                                decimal price = decimal.Parse(parts[4]);
+                                try
+                                {
+                                    DataBase.TelController.Insert(firma, model, baterie, releaseDate, price);
+                                }
+                                catch (SqlException ex)
+                                {
+                                    ShowError("Database error", "Sql error at inserting Telefoane: " + ex.Message);
+                                }
+                            }
+                            catch (FormatException ex)
+                            {
+                                ShowError("Invalid Input", "Invalid format in file: " + ex.Message);
+                            }
+                            catch (SqlException ex)
+                            {
+                                ShowError("Database error", "Sql error at inserting Telefoane: " + ex.Message);
+                            }
+                        }
+                    }
+
+
+                }
+            }
+            RefreshData();
+        }
+
+        private void DropPanel_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effects = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
