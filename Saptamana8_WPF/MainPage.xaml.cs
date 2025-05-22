@@ -40,6 +40,7 @@ namespace Saptamana8_WPF
         private void insertButton_Click(object sender, RoutedEventArgs e)
         {
             new Operations.TelOperationsWindow(close).Show();
+            // this is independent of selected item so it doesn't need to be in a try catch
 
         }
 
@@ -49,19 +50,28 @@ namespace Saptamana8_WPF
             if (dataGrid.SelectedItem != null)
             {
                 // Since we're binding to DataView, SelectedItem is a DataRowView
-                DataRowView row = (DataRowView)dataGrid.SelectedItem;
+                try
+                {
+                    DataRowView row = (DataRowView)dataGrid.SelectedItem;
 
-                // Access column values
-                int id = Convert.ToInt32(row["Id"]);
-                string firma = row["Firma"].ToString();
-                string model = row["Model"].ToString();
-                int baterie = Convert.ToInt32(row["Baterie"]);
-                DateTime releaseDate = Convert.ToDateTime(row["Release_Date"]);
-                decimal price = Convert.ToDecimal(row["Price"]);
+                    // Access column values
+                    int id = Convert.ToInt32(row["Id"]);
+                    string firma = row["Firma"].ToString();
+                    string model = row["Model"].ToString();
+                    int baterie = Convert.ToInt32(row["Baterie"]);
+                    DateTime releaseDate = Convert.ToDateTime(row["Release_Date"]);
+                    decimal price = Convert.ToDecimal(row["Price"]);
 
 
 
-                new Operations.TelOperationsWindow(id, firma, model, baterie, releaseDate, price, close).Show();
+                    new Operations.TelOperationsWindow(id, firma, model, baterie, releaseDate, price, close).Show();
+                }
+                catch (Exception ex)
+                {
+
+                    // this can ONLY throw an error if the selected row is the empty row. I MIGHT look into how to just not show that
+                    // , but i'd rather not mess with the database more than i already did
+                }
             }
 
 
@@ -73,20 +83,26 @@ namespace Saptamana8_WPF
         {
             if (dataGrid.SelectedItem != null)
             {
+                try
+                {
+                    DataRowView row = (DataRowView)dataGrid.SelectedItem;
 
-                DataRowView row = (DataRowView)dataGrid.SelectedItem;
+                    string model = row["Model"].ToString();
 
-                string model = row["Model"].ToString();
-
-                DataBase.TelController.Delete(model);
+                    DataBase.TelController.Delete(model);
 
 
-                RefreshData();
+                    RefreshData();
 
-                MessageBox.Show("Deleted succesfully!", "Sql Delete", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Deleted succesfully!", "Sql Delete", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    // same as for  modifyButton_Click
+                }
+
+
             }
-
-
         }
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
@@ -161,6 +177,9 @@ namespace Saptamana8_WPF
 
         private void refreshButton_Click(object sender, RoutedEventArgs e)
         {
+            modelSearchBox.Clear();
+            priceSearchBox.Clear();
+
             RefreshData();
         }
 
@@ -196,7 +215,7 @@ namespace Saptamana8_WPF
                                 int baterie = int.Parse(parts[2]);
 
                                 DateTime? releaseDate;
-                                if (parts[3]!= "null")
+                                if (parts[3] != "null")
                                 {
                                     releaseDate = DateTime.Parse(parts[3]);
                                 }
@@ -204,9 +223,9 @@ namespace Saptamana8_WPF
                                 {
                                     releaseDate = null;
                                 }
-                                
-                                
-                                
+
+
+
                                 decimal price = decimal.Parse(parts[4]);
                                 try
                                 {
@@ -297,15 +316,15 @@ namespace Saptamana8_WPF
             if (dataGrid.SelectedItem != null)
             {
                 // Since we're binding to DataView, SelectedItem is a DataRowView
-                DataRowView row = (DataRowView)dataGrid.SelectedItem;
+                //DataRowView row = (DataRowView)dataGrid.SelectedItem;
 
-                // Access column values
-                int id = Convert.ToInt32(row["Id"]);
-                string firma = row["Firma"].ToString();
-                string model = row["Model"].ToString();
-                int baterie = Convert.ToInt32(row["Baterie"]);
-                DateTime releaseDate = Convert.ToDateTime(row["Release_Date"]);
-                decimal price = Convert.ToDecimal(row["Price"]);
+                //// Access column values
+                //int id = Convert.ToInt32(row["Id"]);
+                //string firma = row["Firma"].ToString();
+                //string model = row["Model"].ToString();
+                //int baterie = Convert.ToInt32(row["Baterie"]);
+                //DateTime releaseDate = Convert.ToDateTime(row["Release_Date"]);
+                //decimal price = Convert.ToDecimal(row["Price"]);
 
             }
         }

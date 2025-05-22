@@ -103,7 +103,7 @@ namespace Saptamana8_WPF
             }
 
 
-            public static void Insert(string firma, string model, int? baterie, DateTime? releaseDate, decimal price)
+            public static bool Insert(string firma, string model, int? baterie, DateTime? releaseDate, decimal price)
             {
                 SqlConnection connection = new SqlConnection(GlobalVars.CONNECTION_STRING);
                 if (connection.State == System.Data.ConnectionState.Closed)
@@ -126,12 +126,13 @@ namespace Saptamana8_WPF
                     try
                     {
                         command.ExecuteNonQuery();
+                        return true;
                     }
                     catch (SqlException ex)
                     {
                         MessageBox.Show("Sql exception at inserting a Telefon: " + ex.Message);
                     }
-
+                    return false;
                 }
             }
 
@@ -160,7 +161,7 @@ namespace Saptamana8_WPF
                 }
             }
 
-            public static void Update(int id, string firma, string model, int? baterie, DateTime? releaseDate, decimal? price)
+            public static bool Update(int id, string firma, string model, int? baterie, DateTime? releaseDate, decimal? price)
             {
                 SqlConnection connection = new SqlConnection(GlobalVars.CONNECTION_STRING);
                 if (connection.State == System.Data.ConnectionState.Closed)
@@ -214,14 +215,17 @@ namespace Saptamana8_WPF
                     try
                     {
                         command.ExecuteNonQuery();
+                        return true;
                     }
                     catch (SqlException ex)
                     {
                         MessageBox.Show("Sql exception at modifying a Telefon: " + ex.Message);
                     }
                 }
-                
-                
+                return false;
+
+
+
             }
 
         }

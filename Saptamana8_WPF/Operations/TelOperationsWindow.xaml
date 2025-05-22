@@ -6,7 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Saptamana8_WPF.Operations"
         mc:Ignorable="d"
-        Title="TelOperationsWindow" Height="529" Width="929">
+        Title="Sql Operation" Height="529" Width="929"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         
         <Grid.ColumnDefinitions>

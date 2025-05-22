@@ -11,10 +11,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Saptamana8_WPF.Operations
 {
-    
+
 
 
     /// <summary>
@@ -25,7 +26,7 @@ namespace Saptamana8_WPF.Operations
         int? id = null;
         Action action = null;
 
-        public TelOperationsWindow(Action a=null)
+        public TelOperationsWindow(Action a = null)
         {
             InitializeComponent();
             myButton.Content = "Insert item";
@@ -34,10 +35,10 @@ namespace Saptamana8_WPF.Operations
 
             action = a;
         }
-        public TelOperationsWindow(int index,string firma, string model, int? baterie, DateTime? releaseDate, decimal price,Action a = null)
+        public TelOperationsWindow(int index, string firma, string model, int? baterie, DateTime? releaseDate, decimal price, Action a = null)
         {
             InitializeComponent();
-            InitializeTextBoxes( firma, model, baterie, releaseDate,price);
+            InitializeTextBoxes(firma, model, baterie, releaseDate, price);
             id = index;
 
             myButton.Content = "Modify item";
@@ -47,38 +48,68 @@ namespace Saptamana8_WPF.Operations
             action = a;
         }
 
-        
+
 
         private void tryOperation(object sender, RoutedEventArgs e)
         {
+            decimal price = 0;
             string firma = firmaBox.Text;
             string model = modelBox.Text;
             int? baterie = (baterieBox.Text != "") ? int.Parse(baterieBox.Text) : null;
             DateTime? releaseDate = dateBox.SelectedDate;
-            decimal price = decimal.Parse(priceBox.Text);
+            decimal.TryParse(priceBox.Text,out price);
             if (id == null)
             {
-                DataBase.TelController.Insert(firma, model, baterie, releaseDate, price);
-                MessageBox.Show("Inserted succesfully!", "Sql Insert", MessageBoxButton.OK, MessageBoxImage.Information);
+                try
+                {
+                    if (!model.IsNullOrEmpty() && DataBase.TelController.Insert(firma, model, baterie, releaseDate, price))
+                    {
+                        MessageBox.Show("Inserted succesfully!", "Sql Insert", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        action?.Invoke();
+                        this.Close();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Sql Insert", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+
             }
             else
             {
-                DataBase.TelController.Update((int)id, firma, model, baterie, releaseDate, price);
-                MessageBox.Show("Updated succesfully!", "Sql Update", MessageBoxButton.OK, MessageBoxImage.Information);
+                try
+                {
+                    if (DataBase.TelController.Update((int)id, firma, model, baterie, releaseDate, price))
+                    {
+                        MessageBox.Show("Updated succesfully!", "Sql Update", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        action?.Invoke();
+                        this.Close();
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Sql Update", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+
             }
-            action?.Invoke();
-            this.Close();
+
         }
-        
+
 
 
 
         private void InitializeTextBoxes(string firma, string model, int? baterie, DateTime? releaseDate, decimal price)
         {
             firmaBox.Text = firma;
-            modelBox.Text=model;
-            baterieBox.Text = (baterie!=null)?baterie.ToString():0.ToString();
-            dateBox.SelectedDate = (releaseDate!=null)?releaseDate:DateTime.Now;
+            modelBox.Text = model;
+            baterieBox.Text = (baterie != null) ? baterie.ToString() : 0.ToString();
+            dateBox.SelectedDate = (releaseDate != null) ? releaseDate : DateTime.Now;
             priceBox.Text = price.ToString();
 
         }
