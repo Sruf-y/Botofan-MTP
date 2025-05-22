@@ -8,7 +8,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         
@@ -44,8 +44,10 @@
 
         </Grid>
         
+        <!-- Buttons grid -->
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -54,6 +56,22 @@
             <Button x:Name="modifyButton" Content="Modify" HorizontalAlignment="Center" Margin="10" Grid.Row="1" VerticalAlignment="Top" Width="70" Click="modifyButton_Click"/>
             <Button x:Name="deleteButton" Content="Delete" HorizontalAlignment="Center" Margin="10" Grid.Row="2" VerticalAlignment="Top" Width="70" Click="deleteButton_Click"/>
 
+            <StackPanel Grid.Row="3" 
+            Name="DropPanel" 
+            Drop="DropPanel_Drop" 
+            DragOver="DropPanel_DragOver"
+            AllowDrop="True"
+            Background="#EEE"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Margin="10">
+
+                <Label Content="Drop .txt file" 
+           HorizontalAlignment="Center" 
+           VerticalAlignment="Center" 
+           FontSize="14"
+           Foreground="Gray"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

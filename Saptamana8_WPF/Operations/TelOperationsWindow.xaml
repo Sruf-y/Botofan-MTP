@@ -29,7 +29,7 @@
         <TextBox x:Name="firmaBox" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120"/>
 
         <Label Content="Model" Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center"/>
-        <TextBox x:Name="modelBox" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120"/>
+        <TextBox x:Name="modelBox" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" TextChanged="modelBox_TextChanged"/>
         
         <Label Content="Baterie" Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center"/>
         <TextBox x:Name="baterieBox" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120"/>
@@ -42,7 +42,7 @@
         
         
 
-        <Button x:Name="myButton" Content="Button" Grid.Row="5" Grid.Column="1"  HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Padding="5,3,5,3" Click="myButton_Click"/>
+        <Button x:Name="myButton" Content="Button" Grid.Row="5" Grid.Column="1"  HorizontalAlignment="Center" Margin="10" VerticalAlignment="Top" Padding="5,3,5,3" />
         
         
 

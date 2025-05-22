@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 using static Saptamana8_WPF.DataBase.TelController;
 
 
@@ -37,7 +38,7 @@ namespace Saptamana8_WPF
 
         private void insertButton_Click(object sender, RoutedEventArgs e)
         {
-            new Operations.TelOperationsWindow().Show();
+            new Operations.TelOperationsWindow(close).Show();
 
         }
 
@@ -59,11 +60,13 @@ namespace Saptamana8_WPF
 
 
 
-                new Operations.TelOperationsWindow(id, model, firma, baterie, releaseDate, price).Show();
+                new Operations.TelOperationsWindow(id, firma, model, baterie, releaseDate, price,close).Show();
             }
 
 
         }
+
+        public void close() { RefreshData(); }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -75,7 +78,11 @@ namespace Saptamana8_WPF
                 string model = row["Model"].ToString();
 
                 DataBase.TelController.Delete(model);
+
+
                 RefreshData();
+
+                MessageBox.Show("Deleted succesfully!", "Sql Delete", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
 
@@ -83,7 +90,72 @@ namespace Saptamana8_WPF
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
+            decimal maxPrice = -1;
 
+            string connectionString = GlobalVars.CONNECTION_STRING;
+            StringBuilder queryBuilder = new StringBuilder("SELECT * FROM " + DataBase.TelController.TABLE_NAME);
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+
+            queryBuilder.Append(" WHERE 1=1"); // ca sa pot sa continui cu "AND" fara sa verific daca exista where sau nu
+
+            // parse modelSearchBox
+            if (!modelSearchBox.Text.IsNullOrEmpty())
+            {
+                queryBuilder.Append(" AND Model LIKE @MODEL");
+                parameters.Add(new SqlParameter("@MODEL", "%" + modelSearchBox.Text + "%"));
+            }
+
+            // parse pricesearchbox
+            if (!priceSearchBox.Text.IsNullOrEmpty())
+            {
+
+                decimal.TryParse(priceSearchBox.Text, out maxPrice);
+
+                if (maxPrice <= 0)
+                {
+                    ShowError("Invalid Input", "Price must be a valid decimal number > 0");
+                    return;
+                }
+                else
+                {
+                    queryBuilder.Append(" AND Price <= @PRICE");
+                    parameters.Add(new SqlParameter("@PRICE", maxPrice));
+                }
+
+            }
+            else if (!string.IsNullOrWhiteSpace(priceSearchBox.Text))
+            {
+                ShowError("Invalid Input", "Price must be a valid decimal number");
+                return;
+            }
+
+
+            // try updating info
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand(queryBuilder.ToString(), conn))
+                {
+                    cmd.Parameters.AddRange(parameters.ToArray());
+
+                    conn.Open();
+
+                    if (DataBase.TableExists(conn, DataBase.TelController.TABLE_NAME))
+                    {
+                        using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dt);
+                            dataGrid.ItemsSource = dt.DefaultView;
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                ShowError("Database error", "Sql error at filtering Telefoane: " + ex.Message);
+            }
         }
 
         private void refreshButton_Click(object sender, RoutedEventArgs e)
@@ -106,7 +178,7 @@ namespace Saptamana8_WPF
             {
                 conn.Open();
 
-                if (DataBase.TableExists(conn, "Telefoane"))
+                if (DataBase.TableExists(conn, DataBase.TelController.TABLE_NAME))
                 {
                     using (SqlDataAdapter adapter = new SqlDataAdapter(query, conn))
                     {
@@ -136,6 +208,12 @@ namespace Saptamana8_WPF
                 decimal price = Convert.ToDecimal(row["Price"]);
 
             }
+        }
+
+        public static void ShowError(string title, string message)
+        {
+            MessageBox.Show($"{title}: {message}", "Eroare",
+                          MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

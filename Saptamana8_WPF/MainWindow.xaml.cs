@@ -146,9 +146,10 @@ namespace Saptamana8_WPF
             AttemptLogin();
         }
 
+
         private void signInButton_Click(object sender, RoutedEventArgs e)
         {
-            new CreateUserWindow().Show();
+            new CreateUserWindow(AfisareUtilizatori).Show();
 
         }
     }

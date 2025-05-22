@@ -160,7 +160,7 @@ namespace Saptamana8_WPF
                 }
             }
 
-            public static void Modify(string firma, string model, int? baterie, DateTime? releaseDate, decimal? price)
+            public static void Update(int id, string firma, string model, int? baterie, DateTime? releaseDate, decimal? price)
             {
                 SqlConnection connection = new SqlConnection(GlobalVars.CONNECTION_STRING);
                 if (connection.State == System.Data.ConnectionState.Closed)
@@ -175,6 +175,12 @@ namespace Saptamana8_WPF
                 {
                     arons.Add("Firma = @Firma");
                     parameters.Add(new SqlParameter("@Firma", firma));
+                }
+
+                if (!string.IsNullOrWhiteSpace(model))
+                {
+                    arons.Add("Model = @Model");
+                    parameters.Add(new SqlParameter("@Model", model));
                 }
 
                 if (baterie!=null)
@@ -198,12 +204,12 @@ namespace Saptamana8_WPF
 
                 if (arons.Count > 0)
                 {
-                    string query = $@"UPDATE [{TABLE_NAME}] SET {string.Join(", ",arons)} WHERE Model = @Model";
+                    string query = $@"UPDATE [{TABLE_NAME}] SET {string.Join(", ",arons)} WHERE Id = @id";
 
                     SqlCommand command = new SqlCommand(query, connection);
 
                     command.Parameters.AddRange(parameters.ToArray());
-                    command.Parameters.AddWithValue("@Model", model);
+                    command.Parameters.AddWithValue("@Id", id);
 
                     try
                     {

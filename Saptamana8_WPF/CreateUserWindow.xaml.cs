@@ -20,9 +20,11 @@ namespace Saptamana8_WPF
     /// </summary>
     public partial class CreateUserWindow : Window
     {
-        public CreateUserWindow()
+        Action action = null;
+        public CreateUserWindow(Action action)
         {
             InitializeComponent();
+            this.action = action;
         }
 
         private void CreateAccountButton_Click(object sender, RoutedEventArgs e)
@@ -34,13 +36,14 @@ namespace Saptamana8_WPF
             {
                 if (DataBase.UserController.Insert(username, password))
                 {
-                    MessageBox.Show("User inserted succesfully!");
+                    MessageBox.Show("User inserted succesfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    action?.Invoke();
                     this.Close();
                 }
             }
             else
             {
-                MessageBox.Show("Fill in username and password.");
+                MessageBox.Show("Fill in username and password.","Incomplete",MessageBoxButton.OK,MessageBoxImage.Error);
             }
         }
     }
