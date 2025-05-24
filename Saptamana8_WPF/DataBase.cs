@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Saptamana8_WPF
 {
@@ -163,6 +164,12 @@ namespace Saptamana8_WPF
 
             public static bool Update(int id, string firma, string model, int? baterie, DateTime? releaseDate, decimal? price)
             {
+                if(model.IsNullOrEmpty())
+                {
+                    MessageBox.Show("Model cannot be empty!", "Update Telefon", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
                 SqlConnection connection = new SqlConnection(GlobalVars.CONNECTION_STRING);
                 if (connection.State == System.Data.ConnectionState.Closed)
                 {
@@ -219,7 +226,14 @@ namespace Saptamana8_WPF
                     }
                     catch (SqlException ex)
                     {
-                        MessageBox.Show("Sql exception at modifying a Telefon: " + ex.Message);
+
+                        //ShowError("Sql exception", "Sql exception at modifying a Telefon:\n\n " + ex.Message);
+
+                        ShowError("Sql exception", "Sql exception at modifying a Telefon:\n\n " + "Model acesta exista deja!");
+                    }
+                    catch(Exception ex)
+                    {
+                        ShowError("Exception", "Exception at modifying a Telefon:\n\n " + ex.Message);
                     }
                 }
                 return false;
@@ -285,5 +299,13 @@ namespace Saptamana8_WPF
 
 
         }
+
+        public static void ShowError(string title, string message)
+        {
+            MessageBox.Show($"{title}: {message}", "Eroare",
+                          MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
+
+
 }

@@ -35,6 +35,7 @@ namespace Saptamana8_WPF.Operations
 
             action = a;
         }
+
         public TelOperationsWindow(int index, string firma, string model, int? baterie, DateTime? releaseDate, decimal price, Action a = null)
         {
             InitializeComponent();
@@ -68,6 +69,10 @@ namespace Saptamana8_WPF.Operations
 
                         action?.Invoke();
                         this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please fill all fields!", "Sql Insert", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
 
                 }
