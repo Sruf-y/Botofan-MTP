@@ -202,9 +202,13 @@ namespace Saptamana8_WPF
 
                 using (StreamReader reader = new StreamReader(filepath))
                 {
+                    List<int> errorLinesList = new List<int>();
+                    int lineCount = -1;// pt ca incrementez la intrarea in while
                     string line = "";
                     while ((line = reader.ReadLine()) != null)
                     {
+                        lineCount++;
+
                         string[] parts = line.Split(',');
                         if (parts.Length == 5)
                         {
@@ -245,6 +249,15 @@ namespace Saptamana8_WPF
                                 ShowError("Database error", "Sql error at inserting Telefoane: " + ex.Message);
                             }
                         }
+                        else
+                        {
+                            errorLinesList.Add(lineCount);
+                        }
+                    }
+                    if (errorLinesList.Count > 0)
+                    {
+                        
+                        ShowError("Format error", "Lines " + string.Join(",",errorLinesList) + " are not in the right format.");
                     }
 
 
